@@ -5,7 +5,8 @@ export const usersTable = mysqlTable('users_table', {
   id: int('id').primaryKey().autoincrement(),
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
-  password: varchar({length:255})
+  password: varchar({length:255}),
+  sessionID: varchar({length:255})
 });
 
 export const heroTable = mysqlTable('hero_table',{
