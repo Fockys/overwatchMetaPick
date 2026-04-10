@@ -1,12 +1,14 @@
 "use client"
-import { NextApiHandler, NextApiRequest } from "next"
-import { FormEvent } from "react"
+import { NextApiHandler, NextApiRequest } from "next";
+import { NextRequest, NextResponse } from "next/server";
+import { FormEvent } from "react";
+import "dotenv/config"
+import { useRouter } from "next/navigation";
 
 
 
-
-export default function loginPage(req:NextApiRequest,res:NextApiHandler){
-    
+export default function loginPage(){
+    const router = useRouter()
     async function onSubmit(event:FormEvent<HTMLFormElement>){
         event.preventDefault()
 
@@ -20,9 +22,9 @@ export default function loginPage(req:NextApiRequest,res:NextApiHandler){
             })
         })
 
-        if (await response!=null){
-            const data = await response.json
-            console.log(data)
+        if (response.ok){
+            const data = await response.json()
+            router.push("/dashboard")
         }
         
 
@@ -33,7 +35,7 @@ export default function loginPage(req:NextApiRequest,res:NextApiHandler){
     
     return(
         <div className="flex justify-center">
-            <form className="bg-blue-800 w-[50%] p-16 m-5 rounded-2xl flex flex-col" onSubmit={onSubmit}>
+            <form className="bg-blue-800 w-[50%] p-16 m-5 rounded-2xl flex flex-col" onSubmit={onSubmit} method="POST">
                 <h1 className="text-2xl">Username</h1>
                 <input name="username" className="border-black border-2 bg-blue-200 text-black" />
                 <h1 className="text-2xl">Password</h1>

@@ -6,6 +6,8 @@ import bcrypt from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from 'crypto';
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { url } from "inspector";
 
 export default async function loginHandler(req: NextApiRequest, res: NextApiResponse){
     //ensure request is POST
@@ -46,8 +48,8 @@ export default async function loginHandler(req: NextApiRequest, res: NextApiResp
         await db.update(usersTable).set({sessionID: id}).where(eq(usersTable.name,user.name))
 
         res.status(200).json({Message:"logged in"})
-
         return
+        
     }
 
     res.status(200).json({Message:"Could not login"})
