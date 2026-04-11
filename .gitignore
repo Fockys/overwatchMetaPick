@@ -44,5 +44,5 @@ yarn-error.log*
 next-env.d.ts
 
 #public
-/public/fonts
-/public/images
+/public/fonts/*
+/public/images/*

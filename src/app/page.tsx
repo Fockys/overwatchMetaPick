@@ -11,9 +11,9 @@ export default async function Home() {
 
 
   return (
-    <div className="bg-[url(/images/gibraltar.jpg)] min-h-screen bg-cover flex flex-col items-center  pt-[12%]">
-      <h1 className="text-8xl text-white font-[overwatchFont] p-8">Find your next pick</h1>
-      <HeroSearch heros={heros}/>
+    <div className="bg-[url(/images/gibraltar.jpg)] min-h-screen bg-cover  flex flex-col items-center  pt-[12%]">
+      <h1 className="text-5xl sm:text-8xl text-white font-[overwatchFont]  pt-[10vh]">Find your next pick</h1>
+      <HeroSearch heros={heros} className=" sm:w-9/12 lg:w-180  w-[94vw]"></HeroSearch>
     </div>
   );
 }
