@@ -20,9 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="flex flex-col h-dvh">
         <NavBar/>
-        <main className="h-full">{children}</main>
+        <main className="flex-1 min-h-0 overflow-y-auto scroll-touch">{children}</main>
         <MainFooter/>
       </body>
     </html>

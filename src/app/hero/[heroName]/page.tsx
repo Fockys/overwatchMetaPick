@@ -30,20 +30,25 @@ export default async function heroPage({params}: PageProps) {
   const heroCounteredBy = await getHeroCounteredBy(heroID);
 
   return (
-    <div className="p-6">
-
-      <div className="border-b-2 flex mb-2 justify-between items-end">
-        <h1 className="text-8xl font-[overwatchFont]  pl-5">{name}</h1>
-        <h1 className="text-6xl p-2 pr-8 pb-3 font-[overwatchMainFont] mb-1">{role}</h1>
+    <div className="p-1 ">
+      
+      {/* Header */}
+      <div className="border-b flex mb-2 justify-between items-center">
+        <div className="flex">
+          <h1 className="text-3xl sm:text-8xl font-[overwatchFont]  pl-5">{name}</h1>
+          <img src={"/images/heroIcon/"+imageName} loading="eager" alt={imageName!} className="  bg-blue-900 border-blue-200 border-2 rounded-sm sm:rounded-2xl sm:h-20 h-6 w-auto m-2"/>
+        </div>
+        <h1 className="text-xl sm:text-6xl  pr-8 pb-1 font-[overwatchMainFont] mb-1">{role}</h1>
       </div>
 
-      <div className="flex">
-      <div id="col1" className="w-[50%]">
-      <div id="basicInfoCard" className=" m-2 p-6 rounded-4xl border-2 border-blue-200 bg-blue-900 flex">
-        <Image src={"/images/heroIcon/"+imageName} loading="eager" width={120} height={120} alt={imageName!} className="  bg-blue-900 border-blue-200 border-4 rounded-2xl h-auto w-auto"/>
-        <p className="text-xl pl-5">{description}</p>
+      <div className="flex-col ml-2 mr-2 sm:ml-8 sm:mr-8">
+      
+      {/* basic info */}
+      <div id="basicInfoCard" className=" m-2 p-2 rounded-1xl border-2 border-blue-200 bg-blue-900 flex">
+        <p className="text-xs sm:text-sm pl-2">{description}</p>
       </div>
 
+      {/* abilities */ }
       {heroAbilities.map((ability:any) =>(
         <div key={ability.id} className="bg-blue-900 m-3 p-3 rounded-2xl  border-blue-200 border-2">
           <h1 className="font-[overwatchFont] text-4xl">{ability.name}</h1>
@@ -51,6 +56,7 @@ export default async function heroPage({params}: PageProps) {
         </div>
       ))}
 
+      {/* hero ultimates */}
       {heroUltimates.map((ultimate:any)=>(
         <div key={ultimate.id} className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
           <h1 className="font-[overwatchFont] text-4xl">{ultimate.name}</h1>
@@ -58,10 +64,11 @@ export default async function heroPage({params}: PageProps) {
         </div>
       ))}
 
-      </div>
 
-      <div id="col2">
 
+
+
+      {/* hero weapons */}
       <div>
       {heroWeapons.map((weapon:any)=>(
         <div key={weapon.id} className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
@@ -71,6 +78,7 @@ export default async function heroPage({params}: PageProps) {
       ))}
       </div>
 
+      {/*Hero passivess */}
       <div>
       {heroPassives.map((passive:any)=>(
         <div key={passive.id} className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
@@ -80,9 +88,7 @@ export default async function heroPage({params}: PageProps) {
       ))}
       </div>
 
-      </div>
 
-      <div id="col3">
       <div className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
       <h1 className="font-[overwatchFont] text-4xl">Counters</h1>
       {heroCounters.map((counter:any)=>(
@@ -110,7 +116,6 @@ export default async function heroPage({params}: PageProps) {
       </div>
       </div>
 
-      </div>
 
     </div>
   )
