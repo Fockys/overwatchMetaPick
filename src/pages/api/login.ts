@@ -5,55 +5,79 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from 'crypto';
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import { url } from "inspector";
+
+
 
 export default async function loginHandler(req: NextApiRequest, res: NextApiResponse){
-    //ensure request is POST
-    if(req.method != "POST"){
-        res.status(405).json({Message:"Only accepts POST"})
-        return
+    if (!isPostRequest(req,res)) return;
+
+    const data = getRequestData(req,res)
+    if (!data) return;
+    
+    const user = await findUserFromData(data,req,res)
+    if(!user) return;
+
+    
+    const isCorrectPassword = await checkPassword(data,user.password,req,res)
+    if(isCorrectPassword){
+        console.log("correct password")
+        generateSession(user.id,res)
+        res.status(200).json({Message:"logged in"})
+    }else{
+        res.status(401).json({Message:"Could not login"});
     }
 
-    const data = req.body
-    if (!data){
-        res.status(400).json({Message: "Data empty"})
-        return
+}
+
+////////////////////
+//helper functions//
+////////////////////
+
+function isPostRequest(req:NextApiRequest,res:NextApiResponse){
+    if(req.method !== "POST"){
+        res.status(405).json({Message:"Only accepts POST"})
+        return false
     }
+    return true
+}
+
+function getRequestData(req:NextApiRequest,res:NextApiResponse){
+    if (!req.body){
+        res.status(400).json({Message: "Data empty"})
+        return null;
+    }
+    return req.body
+}
+
+async function findUserFromData(data:any,req:NextApiRequest,res:NextApiResponse){
 
     const dbEntry = await db.select().from(usersTable).where(eq(usersTable.name,data.username))
     if (dbEntry.length == 0){
         //user does not exist
-        res.status(200).json({Message:"User does not exist"})
-        return
+        res.status(404).json({Message:"User does not exist"})
+        return null
     }
+    return dbEntry[0]
 
-    const user = dbEntry[0]
-    //ensure password isnt null
-    if(user.password == null){
-        res.status(200).json({Message:"Incorrect password"})
-        return
-    }
+}
 
-    //successful login
-    if( await bcrypt.compare(req.body.password,user.password)){
-        
+async function checkPassword(data:any,hash:any,req:NextApiRequest,res:NextApiResponse){
+    const isMatch = await bcrypt.compare(data.password,hash)
+    if(isMatch) return true;
+    return false
+}
 
-        //generate sessionID
-        const id = generateSessionID(36);
-        //store id as cookie on client
-        res.setHeader("Set-Cookie", `sessionID=${id}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`);
-        //store id in database
-        await db.update(usersTable).set({sessionID: id}).where(eq(usersTable.name,user.name))
 
-        res.status(200).json({Message:"logged in"})
-        return
-        
-    }
+async function generateSession(userid:any,res:NextApiResponse){
+    console.log("generate session called")
+ //generate sessionID
+    const id = generateSessionID(36);
+    //store id as cookie on client
+    res.setHeader("Set-Cookie", `sessionID=${id}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400;`);
+    //store id in database
+    await db.update(usersTable).set({sessionID: id}).where(eq(usersTable.id,userid))
 
-    res.status(200).json({Message:"Could not login"})
-    return
+
 }
 
 function generateSessionID(length:number){

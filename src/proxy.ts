@@ -3,13 +3,39 @@ import { db } from "./db";
 import { usersTable } from "./db/schema";
 import { eq } from "drizzle-orm";
 import "dotenv/config"
+import { error } from "console";
 
+
+export function proxy(request:NextRequest){
+    if (!isDbUp()){
+        return NextResponse.json({error:"Database unavalible",status:503})
+    }
+
+    const pathname = request.url
+
+    if (pathname.startsWith("/dashboard")){
+        dashboardMiddleware(request)
+    }
+    
+}
+
+export const config= {
+    matcher: '/'
+}
+
+
+
+//ensures the db is up and if not throws a internal server error
+function isDbUp(){
+    if (!db){
+        return false
+    }
+    return true
+}
 
 //check if user is authenticated before making any dashboard changes
-export async function proxy(request:NextRequest){
-    
-    
-    
+async function dashboardMiddleware(request:NextRequest){
+
     const sessionID = request.cookies.get("sessionID");
 
     if(!sessionID){
@@ -19,11 +45,6 @@ export async function proxy(request:NextRequest){
     }
 
 }
-
-export const config= {
-    matcher: '/dashboard'
-}
-
 
 
 
@@ -39,3 +60,4 @@ async function isAuthenticated(sessionID:string){
 
     return true
 }
+
