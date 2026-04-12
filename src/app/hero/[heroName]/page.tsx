@@ -6,6 +6,15 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
+//page components
+import BasicInfo from "./heroComponents/BasicInfo";
+import Abilities from "./heroComponents/Abilities";
+import Ultimates from "./heroComponents/Ultimates";
+import Weapons from "./heroComponents/Weapons";
+import Passives from "./heroComponents/Passives";
+import Counters from "./heroComponents/Counters";
+import CounteredBy from "./heroComponents/CounteredBy";
+import HeroHeader from "./heroComponents/HeroHeader";
 
 interface PageProps {
   params: Promise<{heroName:string}>
@@ -14,10 +23,8 @@ interface PageProps {
 export default async function heroPage({params}: PageProps) {
   //get hero name from page name parameters
   const { heroName } = await params;
-  
-  const basicHeroData = await getBasicHeroData(heroName)
 
-  //ensure the hero exists
+  const basicHeroData = await getBasicHeroData(heroName)
   if (!basicHeroData.length) notFound();
 
   const { id, name, imageName, description, role } = basicHeroData[0];
@@ -31,96 +38,25 @@ export default async function heroPage({params}: PageProps) {
 
   return (
     <div className="p-1 ">
-      
-      {/* Header */}
-      <div className="border-b flex mb-2 justify-between items-center">
-        <div className="flex">
-          <h1 className="text-3xl sm:text-8xl font-[overwatchFont]  pl-5">{name}</h1>
-          <img src={"/images/heroIcon/"+imageName} loading="eager" alt={imageName!} className="  bg-blue-900 border-blue-200 border-2 rounded-sm sm:rounded-2xl sm:h-20 h-6 w-auto m-2"/>
-        </div>
-        <h1 className="text-xl sm:text-6xl  pr-8 pb-1 font-[overwatchMainFont] mb-1">{role}</h1>
-      </div>
+      <HeroHeader name={name} role={role!} imageName={imageName!}/>
 
       <div className="flex-col ml-2 mr-2 sm:ml-8 sm:mr-8">
-      
-      {/* basic info */}
-      <div id="basicInfoCard" className=" m-2 p-2 rounded-1xl border-2 border-blue-200 bg-blue-900 flex">
-        <p className="text-xs sm:text-sm pl-2">{description}</p>
+        <BasicInfo description={description!}/>
+        <Abilities heroAbilities={heroAbilities}/>
+        <Ultimates heroUltimates={heroUltimates}/>
+        <Weapons heroWeapons={heroWeapons}/>
+        <Passives heroPassives={heroPassives}/>
+        <Counters heroCounters={heroCounters}/>
+        <CounteredBy heroCounteredBy={heroCounteredBy}/>
       </div>
-
-      {/* abilities */ }
-      {heroAbilities.map((ability:any) =>(
-        <div key={ability.id} className="bg-blue-900 m-3 p-3 rounded-2xl  border-blue-200 border-2">
-          <h1 className="font-[overwatchFont] text-4xl">{ability.name}</h1>
-          <h1>{ability.description}</h1>
-        </div>
-      ))}
-
-      {/* hero ultimates */}
-      {heroUltimates.map((ultimate:any)=>(
-        <div key={ultimate.id} className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
-          <h1 className="font-[overwatchFont] text-4xl">{ultimate.name}</h1>
-          <p>{ultimate.description}</p>
-        </div>
-      ))}
-
-
-
-
-
-      {/* hero weapons */}
-      <div>
-      {heroWeapons.map((weapon:any)=>(
-        <div key={weapon.id} className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
-          <h1 className="font-[overwatchFont] text-4xl">{weapon.name}</h1>
-          <p>{weapon.description}</p>
-        </div>
-      ))}
-      </div>
-
-      {/*Hero passivess */}
-      <div>
-      {heroPassives.map((passive:any)=>(
-        <div key={passive.id} className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
-          <h1 className="font-[overwatchFont] text-4xl">{passive.name}</h1>
-          <p>{passive.description}</p>
-        </div>
-      ))}
-      </div>
-
-
-      <div className="bg-blue-900 m-3 p-3 rounded-2xl border-blue-200 border-2">
-      <h1 className="font-[overwatchFont] text-4xl">Counters</h1>
-      {heroCounters.map((counter:any)=>(
-        <div className="flex items-center" key={counter.id}>
-          <div>
-          <h1 className="font-[overwatchFont] text-xl">{counter.counterName}</h1>
-          <Image src={"/images/heroIcon/"+counter.counterImage.trimEnd()} width={48} height={48} alt="hero Portrait" className="mr-8 border-blue-300 border-solid border-2 rounded-lg"/>
-          </div>
-          <p>{counter.reason}</p>
-        </div>
-      ))}
-
-      <h1 className="font-[overwatchFont] text-4xl pt-4">Countered by</h1>
-      {heroCounteredBy.map((counteredBy:any)=>(
-        <div key={counteredBy.id} className="flex items-center">
-          <div>
-          <h1 className="font-[overwatchFont] text-xl">{counteredBy.name}</h1>
-          <Image src={"/images/heroIcon/"+counteredBy.counteredByImage.trimEnd()} width={48} height={48} alt="hero Portrait" className="mr-8 border-blue-300 border-solid border-2 rounded-lg"/>
-          </div>
-          <p>{counteredBy.reason}</p>
-        </div>
-      ))}
-
-
-      </div>
-      </div>
-
-
     </div>
   )
 
 }
+
+////////////////////
+//helper functions//
+////////////////////
 
 async function getBasicHeroData(heroName:string){
   const data = await db
