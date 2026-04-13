@@ -25,6 +25,7 @@ export default function loginPage(){
         if (response.ok){
             const data = await response.json()
             router.push("/dashboard")
+            window.location.href = "/dashboard"
         }
         
 
