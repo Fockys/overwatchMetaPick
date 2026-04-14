@@ -21,7 +21,8 @@ export const abilityTable = mysqlTable('ability_table',{
   id: int('id').primaryKey().autoincrement(),
   heroID: int('heroID').references(()=> heroTable.id, {onDelete: 'cascade'}).notNull(),
   name: varchar({length:255}),
-  description: varchar({length:500})
+  description: varchar({length:500}),
+  imageName:varchar({length:255})
 });
 
 export const passivesTable = mysqlTable('passives_table',{
@@ -41,13 +42,6 @@ export const countersTable = mysqlTable('counters_table',{
   heroID: int('heroID').references(()=> heroTable.id, {onDelete: 'cascade'}).notNull(),
   heroCounterID: int('heroCounterID').references(()=> heroTable.id,{onDelete: 'cascade'}),
   reason: varchar({length:500})
-})
-
-export const ultimatesTable = mysqlTable('ultimates_table',{
-  id: int('id').primaryKey().autoincrement(),
-  heroID: int('heroID').references(()=>heroTable.id,{onDelete: 'cascade'}).notNull(),
-  name: varchar({length:255}),
-  description: varchar({length:500})
 })
 
 export const weaponsTable = mysqlTable('weapons_table',{

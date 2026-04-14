@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/db";
-import { abilityTable, countersTable, heroTable, passivesHeroJunction, passivesTable, ultimatesTable, weaponsTable } from "@/db/schema";
+import { abilityTable, countersTable, heroTable, passivesHeroJunction, passivesTable,  weaponsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -9,7 +9,6 @@ import Image from "next/image";
 //page components
 import BasicInfo from "./heroComponents/BasicInfo";
 import Abilities from "./heroComponents/Abilities";
-import Ultimates from "./heroComponents/Ultimates";
 import Weapons from "./heroComponents/Weapons";
 import Passives from "./heroComponents/Passives";
 import Counters from "./heroComponents/Counters";
@@ -30,7 +29,6 @@ export default async function heroPage({params}: PageProps) {
   const { id, name, imageName, description, role } = basicHeroData[0];
   const heroID = id
   const heroAbilities = await getHeroAbilities(heroID);
-  const heroUltimates = await getHeroUltimate(heroID);
   const heroWeapons = await getHeroWeapons(heroID);
   const heroPassives = await getHeroPassives(heroID);
   const heroCounters = await getHeroCounters(heroID);
@@ -40,10 +38,9 @@ export default async function heroPage({params}: PageProps) {
     <div className="p-1 ">
       <HeroHeader name={name} role={role!} imageName={imageName!}/>
 
-      <div className="flex-col ml-2 mr-2 sm:ml-8 sm:mr-8">
-        <BasicInfo description={description!}/>
+      <div className="flex-col">
+        <BasicInfo description={description!} imageName={imageName!}/>
         <Abilities heroAbilities={heroAbilities}/>
-        <Ultimates heroUltimates={heroUltimates}/>
         <Weapons heroWeapons={heroWeapons}/>
         <Passives heroPassives={heroPassives}/>
         <Counters heroCounters={heroCounters}/>
@@ -68,19 +65,12 @@ async function getBasicHeroData(heroName:string){
 
 async function getHeroAbilities(heroID:number){
   const data = await db
-    .select({id: abilityTable.id, name: abilityTable.name, description: abilityTable.description})
+    .select({id: abilityTable.id, name: abilityTable.name, description: abilityTable.description, imageName:abilityTable.imageName})
     .from(abilityTable)
     .where(eq(abilityTable.heroID,heroID))
   return data
 }
 
-async function getHeroUltimate(heroID:number){
-  const data = await db
-    .select({id: ultimatesTable.id, name: ultimatesTable.name, description: ultimatesTable.description})
-    .from(ultimatesTable)
-    .where(eq(ultimatesTable.heroID,heroID))
-  return data
-}
 
 async function getHeroPassives(heroID:number){
   const data = await db
