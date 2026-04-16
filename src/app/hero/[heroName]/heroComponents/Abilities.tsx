@@ -32,9 +32,9 @@ export default function Abilities({heroAbilities}:{heroAbilities:any}){
 
             <div className="flex justify-center gap-2 mt-3 h-18">
                 {heroAbilities.map((ability: any, index: number) => (
-                <div className="w-16 flex justify-center items-center">
+                <div key={index} className="w-16 flex justify-center items-center">
                 <button
-                    key={index}
+                    
                     onClick={() => emblaApi?.scrollTo(index)}
                     className={`w-12 h-12 bg-no-repeat bg-center bg-blue-950 rounded-full transition-colors hover:w-16 hover:h-16 static ${
                     index === selectedIndex ? "opacity-100" : "opacity-30"

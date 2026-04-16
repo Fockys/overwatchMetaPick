@@ -1,19 +1,27 @@
-import { db } from "@/db"
-import { usersTable } from "@/db/schema"
-import { NextRequest } from "next/server";
+
+import DashboardClient from "./DashboardClient";
+import { heroTable } from "@/db/schema";
+import { NextRequest,NextResponse } from "next/server";
+import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
-export default async function dashboard(request:NextRequest){
-    const cookieStore = await cookies()
-    const sessionID = cookieStore.get("sessionID");
 
-    
-    if(!sessionID){
-        redirect("/login");
-    }
-    const user = await db.select().from(usersTable).where(eq(usersTable.sessionID,sessionID.value))
-    user[0].name
-    return <h1>Welcome back {user[0].name}</h1>
+export default async function Dashboard(req:NextRequest,res:NextResponse) {
+
+
+    const heros = await getHeros();
+    return(
+        <div className="h-full">  
+        <DashboardClient heros={heros}/>
+        </div>
+    )
+
 }
+
+
+
+async function getHeros(){
+    const response = await db.select().from(heroTable);
+    return response;
+}
+
