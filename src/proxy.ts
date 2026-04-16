@@ -4,23 +4,26 @@ import { usersTable } from "./db/schema";
 import { eq } from "drizzle-orm";
 import "dotenv/config"
 import { error } from "console";
+import path from "path";
 
 
-export function proxy(request:NextRequest){
+export async function proxy(request:NextRequest){
     if (!isDbUp()){
         return NextResponse.json({error:"Database unavalible",status:503})
     }
 
-    const pathname = request.url
-
+    const pathname = new URL(request.url).pathname
+    console.log(pathname)
     if (pathname.startsWith("/dashboard")){
-        dashboardMiddleware(request)
+        return await dashboardMiddleware(request)
+    }else if (pathname.startsWith("/api/protected/")){
+        return await protectedApiMiddleware(request)
     }
     
 }
 
 export const config= {
-    matcher: '/'
+    matcher: ["/","/dashboard/:path*", "/api/protected/:path*","/hero/:path*"]
 }
 
 
@@ -35,7 +38,15 @@ function isDbUp(){
 
 //check if user is authenticated before making any dashboard changes
 async function dashboardMiddleware(request:NextRequest){
+    return await protectedRoute(request);
+}
 
+async function protectedApiMiddleware(request:NextRequest){
+    return await protectedRoute(request);
+}
+
+
+async function protectedRoute(request:NextRequest){
     const sessionID = request.cookies.get("sessionID");
 
     if(!sessionID){
@@ -43,7 +54,7 @@ async function dashboardMiddleware(request:NextRequest){
     }else if(!(await isAuthenticated(sessionID.value))){
         return NextResponse.redirect(new URL("/login",request.url));
     }
-
+    return
 }
 
 
@@ -51,7 +62,7 @@ async function dashboardMiddleware(request:NextRequest){
 
 async function isAuthenticated(sessionID:string){
 
-    const user = db.select().from(usersTable).where(eq(usersTable.sessionID,sessionID))
+    const user = await db.select().from(usersTable).where(eq(usersTable.sessionID,sessionID))
 
     if(!user){
         return false
