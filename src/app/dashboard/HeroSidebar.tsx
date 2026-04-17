@@ -15,7 +15,7 @@ export default function HeroSidebar({heros,className,onSelectHero,selectedHero}:
             <div className="px-5 py-2">
 
                 {heros.map((hero:any) => (
-                    <p key={hero.id} onClick={() => onSelectHero(hero.id)}>{hero.name}</p>
+                    <p key={hero.id} onClick={() => onSelectHero(hero.id)} className={selectedHero === hero.id ? "cursor-pointer border-blue-300 border-2 rounded-sm" : "cursor-pointer hover:bg-blue-500"}>{hero.name}</p>
                 ))}
 
             </div>
