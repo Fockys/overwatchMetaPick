@@ -1,5 +1,5 @@
 
-import DashboardClient from "./DashboardClient";
+import DashboardClient from "./dashboardComponents/DashboardClient";
 import { heroTable } from "@/db/schema";
 import { NextRequest,NextResponse } from "next/server";
 import { db } from "@/db";

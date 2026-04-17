@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState, useTransition } from "react"
-import { getHeroByID } from "./actions";
+import { getHeroBasicByID, updateHeroBasicInfo } from "../actions";
 
 
 interface HeroEditPanelProps {
@@ -20,11 +20,24 @@ export default function HeroEditPanel({currentHeroID,className}:HeroEditPanelPro
         }
         
         startTransition(async () => {
-            const data = await getHeroByID(currentHeroID);
+            const data = await getHeroBasicByID(currentHeroID);
             console.log(data);
             setHeroData(data);
         })
     }, [currentHeroID])
+
+    function handleFormSubmit(e:React.FormEvent<HTMLFormElement>){
+      e.preventDefault();
+      if (!currentHeroID) return;
+      console.log("saving basic hero data");
+      startTransition( async () => {
+        await updateHeroBasicInfo(currentHeroID, heroData.name, heroData.description);
+      });
+    }
+
+
+
+
 
 
     return (
@@ -33,7 +46,7 @@ export default function HeroEditPanel({currentHeroID,className}:HeroEditPanelPro
 
       {!isPending && heroData && (
         <div className="">
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <label className="mb-2 text-lg">Hero Name</label>
             <input type="text" value={heroData.name ?? ""} onChange={(e) => setHeroData({...heroData, name: e.target.value})} className="border-2 border-gray-300 p-2 rounded-md w-full" />
             <label className="mb-2 text-lg">Hero Description</label>
@@ -46,3 +59,5 @@ export default function HeroEditPanel({currentHeroID,className}:HeroEditPanelPro
   );
 
 }
+
+
