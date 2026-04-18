@@ -14,8 +14,9 @@ try{
   });
   db = drizzle(connection)
 }
-catch{
-  console.error("Could not connect to database")
+catch(e){
+  console.error("Could not connect to database");
+  console.error(e);
 }
 // Pass connection to drizzle
 export { db };

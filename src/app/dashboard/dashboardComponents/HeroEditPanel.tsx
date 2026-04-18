@@ -47,11 +47,11 @@ export default function HeroEditPanel({currentHeroID,className}:HeroEditPanelPro
       {!isPending && heroData && (
         <div className="">
           <form onSubmit={handleFormSubmit}>
-            <label className="mb-2 text-lg">Hero Name</label>
-            <input type="text" value={heroData.name ?? ""} onChange={(e) => setHeroData({...heroData, name: e.target.value})} className="border-2 border-gray-300 p-2 rounded-md w-full" />
-            <label className="mb-2 text-lg">Hero Description</label>
-            <textarea value={heroData.description ?? ""} onChange={(e) => setHeroData({...heroData, description: e.target.value})} className="border-2 border-gray-300 p-2 rounded-md w-full" />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Save</button>
+            <label className="mb-2 xxl:text-lg text-sm">Hero Name</label>
+            <input type="text" value={heroData.name ?? ""} onChange={(e) => setHeroData({...heroData, name: e.target.value})} className="border-2 border-gray-300 p-2 rounded-md w-full text-xs" />
+            <label className="mb-2 xxl:text-lg text-sm">Hero Description</label>
+            <textarea value={heroData.description ?? ""} onChange={(e) => setHeroData({...heroData, description: e.target.value})} className="border-2 border-gray-300 p-2 rounded-md w-full text-xs" />
+            <button type="submit" className="bg-blue-500 text-white xxl:px-4 xxl:py-2 px-2 py-1 rounded-md">Save</button>
           </form>
         </div>
       )}
