@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { eq } from "drizzle-orm";
 
 
-export default async function Dashboard(req:NextRequest,res:NextResponse) {
+export default async function Dashboard() {
 
 
     const heros = await getHeros();
