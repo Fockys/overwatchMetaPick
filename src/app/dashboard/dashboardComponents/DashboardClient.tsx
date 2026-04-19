@@ -18,7 +18,7 @@ export default function DashboardClient({heros}:DashboardClientProps){
     return(
         <div className={`grid grid-cols-5 grid-rows-3 h-full`}>
             <HeroSidebar heros={heros} onSelectHero={setCurrentHeroID} selectedHero={currentHeroID} className="h-full col-start-1 row-start-1 row-span-full"/>
-            <HeroEditPanel currentHeroID={currentHeroID} className="h-full xxl:p-12 p-4 col-start-2 col-span-3 row-start-1"/>
+            <HeroEditPanel currentHeroID={currentHeroID} className="h-full xxl:p-12 p-2 col-start-2 col-span-3 row-start-1"/>
             <HeroIconEditor currentHeroID={currentHeroID} className="h-full xxl:p-12  col-start-5 row-start-1"/>
             <AbilityEditor currentHeroID={currentHeroID} className = "h-full col-start-2 row-start-2 col-span-3"/>
             <CountersEditor className="h-full col-start-2 row-start-3 col-span-3"/>

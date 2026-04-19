@@ -1,5 +1,6 @@
 import { useEffect, useState, useTransition } from "react"
 import { getHeroIconByID } from "../actions";
+import DashboardButton from "./ui/DashboardButton";
 
 
 interface HeroIconEditorProps {
@@ -39,7 +40,8 @@ export default function HeroIconEditor( {className, currentHeroID}:HeroIconEdito
             <form className="xxl:mt-4 mt-1">
                 <label className="block mb-2 xxl:text-lg text-sm">Upload New Icon</label>
                 <input type="file" className="mb-4 border-2 cursor-pointer w-full"/>
-                <button type="submit" className="bg-blue-500 text-white xxl:px-4 xxl:py-2 px-2 py-1 rounded-md">Upload</button>
+                <DashboardButton text="Upload" className="w-full"/>
+                
             </form>
         </div>
       )}

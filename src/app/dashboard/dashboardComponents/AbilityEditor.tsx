@@ -1,6 +1,7 @@
 import { useEffect, useState, useTransition } from "react"
 import { getAbilitiesByHeroId } from "../actions";
 import AbilityCard from "./AbilityCard";
+import DashboardButton from "./ui/DashboardButton";
 
 interface AbiltiyEditorProps{
     className?:string,
@@ -32,7 +33,7 @@ export default function AbilityEditor({className, currentHeroID}:AbiltiyEditorPr
 
         {!isPending && abilityData && (
             <div>
-            <button className="bg-blue-500 text-white xxl:px-4 xxl:py-2 px-2 py-1 rounded-md ml-2">Add Ability</button>
+            <DashboardButton text="New ability" className="ml-2"/>
             <div className="flex">
                 {abilityData.map((ability:any) => (
                     <AbilityCard key={ability.id} abilityName={ability.name} abilityDescription={ability.description} abilityIcon={ability.imageName} />
