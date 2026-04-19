@@ -11,9 +11,12 @@ interface AbiltiyEditorProps{
 export default function AbilityCard({className, abilityName, abilityDescription, abilityIcon}:AbiltiyEditorProps){
     return(
         <div className={`${className ?? ''} border-2 border-white rounded-md p-4 m-2 w-48 flex flex-col justify-between`}>
-            <h1 className="text-base border-b-2">{abilityName}</h1>
+            <div className="flex justify-between border-b-2">
+            <h1 className="text-base ">{abilityName}</h1>
+            <img src={`images/abilityIcon/${abilityIcon}`} alt={abilityName} className="w-9 h-9" />
+            </div>
             <p className="text-xs">{abilityDescription}</p>
-            <img src={`images/abilityIcon/${abilityIcon}`} alt={abilityName} className="w-12 h-12" />
+            
             <DashboardButton text="Edit" className="mt-2"/>
         </div>
     )
