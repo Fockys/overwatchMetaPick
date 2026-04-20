@@ -11,7 +11,7 @@ export default async function Dashboard() {
 
     const heros = await getHeros();
     return(
-        <div className="h-full">  
+        <div className="h-full w-screen overflow-y-hidden">  
         <DashboardClient heros={heros}/>
         </div>
     )
