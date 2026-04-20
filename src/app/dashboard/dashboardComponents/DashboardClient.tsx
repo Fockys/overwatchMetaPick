@@ -6,6 +6,7 @@ import HeroIconEditor from "./HeroIconEditor";
 import AbilityEditor from "./AbilityEditor";
 import CountersEditor from "./CountersEditor";
 import WeaponEditor from "./WeaponEditor";
+import PassivesEditor from "./PassivesEditor";
 
 interface DashboardClientProps {
     heros:any,
@@ -25,6 +26,7 @@ export default function DashboardClient({heros}:DashboardClientProps){
             <AbilityEditor currentHeroID={currentHeroID} className = "h-auto col-start-1 row-start-2 col-span-3"/>
             <CountersEditor currentHeroID={currentHeroID} className="h-auto row-start-3 col-start-1 col-span-3 "/>
             <WeaponEditor currentHeroID={currentHeroID} className="h-auto col-start-4 row-start-2"/>
+            <PassivesEditor currentHeroID={currentHeroID} className="h-auto col-start-4 row-start-3"/>
             </div>
         </div>
     )

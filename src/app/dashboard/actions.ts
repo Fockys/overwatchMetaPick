@@ -1,6 +1,6 @@
 "use server"
 import { db } from "@/db";
-import { abilityTable, countersTable, heroTable } from "@/db/schema";
+import { abilityTable, countersTable, heroTable, passivesHeroJunction, passivesTable, weaponsTable } from "@/db/schema";
 import { eq, or } from "drizzle-orm";
 
 export async function getHeroBasicByID(id:number){
@@ -41,4 +41,20 @@ export async function getCounteredByByHeroId(id:number){
     const result = await db.select().from(countersTable).where(eq(countersTable.heroCounterID,id))
         .leftJoin(heroTable, eq(countersTable.heroID, heroTable.id));
     return result
+}
+
+export async function getWeaponsByHeroId(id:number){
+    if (!id) return null;
+
+    const result = await db.select().from(weaponsTable).where(eq(weaponsTable.heroID,id));
+    return result;
+}
+
+export async function getPassivesByHeroId(id:number){
+    if (!id) return null;
+
+    const result = await db.select().from(passivesHeroJunction)
+    .leftJoin(passivesTable, eq(passivesTable.id, passivesHeroJunction.passiveID))
+    .where(eq(passivesHeroJunction.heroID, id));
+    return result;
 }

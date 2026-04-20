@@ -1,3 +1,6 @@
+import { useEffect, useState, useTransition } from "react"
+import {getWeaponsByHeroId} from "../actions";
+import DashboardButton from "./ui/DashboardButton";
 
 interface WeaponEditorProps{
     className?:string,
@@ -5,9 +8,41 @@ interface WeaponEditorProps{
 }
 
 export default function WeaponEditor({className, currentHeroID}:WeaponEditorProps){
+
+    const [weaponData, setWeaponData] = useState<any>(null);
+    const [isPending, startTransition] = useTransition();
+
+    useEffect(()=>{
+        if (!currentHeroID){
+            setWeaponData(null);
+            return;
+        }
+
+        startTransition(async()=>{
+            const data = await getWeaponsByHeroId(currentHeroID);
+            setWeaponData(data);
+        })
+
+
+    }, [currentHeroID])
+
     return(
         <div className={` ${className ?? ''}`}>
-            <h1>Weapon Editor</h1>
+            {isPending && <p>Loading...</p>}
+
+            {!isPending && weaponData && (
+                <div>
+                    <h1 className="xxl:text-2xl text-sm">Current hero Weapons</h1>
+                    <DashboardButton text="Add Weapon" className="mb-4"/>
+                    {weaponData.map((weapon:any) => (
+                        <div key={weapon.id} className="mb-4 border-2 border-gray-300 rounded-sm p-2">
+                            <h2 className="xxl:text-xl text-sm">{weapon.name}</h2>
+                            <p className="xxl:text-base text-xs">{weapon.description}</p>
+                            <DashboardButton text="edit" className="mt-2 w-full"/>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
