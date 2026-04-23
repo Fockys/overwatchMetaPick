@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from "react"
-import { getAbilitiesByHeroId } from "../../actions";
+import { getAbilitiesByHeroId } from "../../actions/getActions";
 import AbilityCard from "../cards/AbilityCard";
-import AddItemPopup from "../popups/AddItemPopup";
+import AddAbilityPopup from "../popups/AddAbilityPopup";
 
 interface AbiltiyEditorProps{
     className?:string,
@@ -33,7 +33,7 @@ export default function AbilityEditor({className, currentHeroID}:AbiltiyEditorPr
 
         {!isPending && abilityData && (
             <div>
-            <AddItemPopup buttonText="New Ability" popupTitle="Add New Ability" popupFields={["abilityName", "abilityDescription", "abilityIcon"]} className="px-2"/>
+            <AddAbilityPopup heroID={currentHeroID!} className="px-2"/>
             <div className="flex">
                 {abilityData.map((ability:any) => (
                     <AbilityCard key={ability.id} abilityName={ability.name} abilityDescription={ability.description} abilityIcon={ability.imageName} />

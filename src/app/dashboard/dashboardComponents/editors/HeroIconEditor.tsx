@@ -1,6 +1,6 @@
 import { useEffect, useState, useTransition } from "react"
-import { getHeroIconByID } from "../actions";
-import DashboardButton from "./ui/DashboardButton";
+import { getHeroIconByID } from "../../actions/getActions";
+import DashboardButton from "../ui/DashboardButton";
 
 
 interface HeroIconEditorProps {

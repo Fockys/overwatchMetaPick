@@ -3,9 +3,12 @@ import { db } from "@/db";
 import { abilityTable, countersTable, heroTable, passivesHeroJunction, passivesTable, weaponsTable } from "@/db/schema";
 import { eq, or } from "drizzle-orm";
 
+
+
+
 export async function getHeroBasicByID(id:number){
     if (!id) return null;
-    const hero = await db.select({id: heroTable.id, name: heroTable.name, description: heroTable.description}).from(heroTable).where(eq(heroTable.id,id));
+    const hero = await db.select({id: heroTable.id, name: heroTable.name, description: heroTable.description, role:heroTable.role}).from(heroTable).where(eq(heroTable.id,id));
     return hero[0] ?? null;
 }
 
@@ -15,12 +18,6 @@ export async function getHeroIconByID(id:number){
     return hero[0] ?? null;
 }
 
-
-export async function updateHeroBasicInfo(id:number, name:string, description:string){
-    if (!id || !name || !description) return null;
-    const result = await db.update(heroTable).set({name,description}).where(eq(heroTable.id,id));
-    return;
-}
 
 export async function getAbilitiesByHeroId(id:number){
     if (!id) return null;

@@ -1,4 +1,4 @@
-import DashboardButton from "./ui/DashboardButton"
+import DashboardButton from "../ui/DashboardButton"
 
 
 interface AbiltiyEditorProps{

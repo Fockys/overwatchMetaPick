@@ -1,5 +1,5 @@
 import { useEffect, useState, useTransition } from "react"
-import { getPassivesByHeroId } from "../actions";
+import { getPassivesByHeroId } from "../../actions/getActions";
 
 interface PassivesEditorProps {
     className?:string,

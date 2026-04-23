@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from "react"
-import { getCountersByHeroId, getCounteredByByHeroId } from "../../actions";
+import { getCountersByHeroId, getCounteredByByHeroId } from "../../actions/getActions";
 import CounterCard from "../cards/CounterCard";
-import DashboardButton from "../popups/DashboardButton";
+import DashboardButton from "../ui/DashboardButton";
 
 interface CountersEditorProps{
     className?:string,

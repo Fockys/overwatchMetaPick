@@ -1,6 +1,6 @@
 import { useEffect, useState, useTransition } from "react"
-import {getWeaponsByHeroId} from "../actions";
-import DashboardButton from "./ui/DashboardButton";
+import {getWeaponsByHeroId} from "../../actions/getActions";
+import DashboardButton from "../ui/DashboardButton";
 
 interface WeaponEditorProps{
     className?:string,
