@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Dashboard from "../../page";
-import DashboardButton from "./DashboardButton";
+import DashboardButton from "../ui/DashboardButton";
 
 
 interface addItemPopupProps{

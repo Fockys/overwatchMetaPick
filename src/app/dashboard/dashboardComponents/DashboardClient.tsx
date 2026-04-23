@@ -1,12 +1,12 @@
 "use client"
 import {useState} from "react";
 import HeroSidebar from "./HeroSidebar";
-import HeroEditPanel from "./HeroEditPanel";
-import HeroIconEditor from "./HeroIconEditor";
-import AbilityEditor from "./AbilityEditor";
-import CountersEditor from "./CountersEditor";
-import WeaponEditor from "./WeaponEditor";
-import PassivesEditor from "./PassivesEditor";
+import HeroEditPanel from "./editors/HeroEditPanel";
+import HeroIconEditor from "./editors/HeroIconEditor";
+import AbilityEditor from "./editors/AbilityEditor";
+import CountersEditor from "./editors/CountersEditor";
+import WeaponEditor from "./editors/WeaponEditor";
+import PassivesEditor from "./editors/PassivesEditor";
 
 interface DashboardClientProps {
     heros:any,

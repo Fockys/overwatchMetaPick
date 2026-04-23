@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from "react"
-import { getAbilitiesByHeroId } from "../actions";
-import AbilityCard from "./AbilityCard";
-import AddItemPopup from "./ui/AddItemPopup";
+import { getAbilitiesByHeroId } from "../../actions";
+import AbilityCard from "../cards/AbilityCard";
+import AddItemPopup from "../popups/AddItemPopup";
 
 interface AbiltiyEditorProps{
     className?:string,
