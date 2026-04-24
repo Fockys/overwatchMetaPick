@@ -25,6 +25,7 @@ export async function getAbilitiesByHeroId(id:number){
     return result;
 }
 
+
 export async function getCountersByHeroId(id:number){
     if (!id) return null;
     const result = await db.select().from(countersTable).where(eq(countersTable.heroID,id))

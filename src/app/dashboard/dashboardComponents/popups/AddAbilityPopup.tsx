@@ -1,8 +1,7 @@
 "use client"
-import { useState, startTransition, useEffect } from "react";
+import { useState, startTransition} from "react";
 import DashboardButton from "../ui/DashboardButton";
 import { createAbility } from "../../actions/postActions";
-import { useRouter } from "next/navigation";
 
 
 interface addAbilityPopupProps{
@@ -11,7 +10,7 @@ interface addAbilityPopupProps{
 }
 
 export default function AddAbilityPopup({className, heroID}:addAbilityPopupProps){
-    const router = useRouter()
+
     const [isOpen, setIsOpen] = useState(false);
     const [abilityData, setAbilityData] = useState({name:"", description:""});
     const handleOpen = () => setIsOpen(!isOpen);
