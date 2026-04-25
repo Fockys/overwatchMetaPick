@@ -18,7 +18,6 @@ export default function AbilityEditor({className, currentHeroID}:AbiltiyEditorPr
         if (!currentHeroID) return;
         startTransition(async () => {
             const abilityData = await getAbilitiesByHeroId(currentHeroID);
-            console.log(abilityData);
             setAbilityData(abilityData);
         });
     }, [currentHeroID, startTransition]);

@@ -19,7 +19,6 @@ export default function PassivesEditor({className, currentHeroID}:PassivesEditor
 
     startTransition(async()=>{
             const data = await getPassivesByHeroId(currentHeroID);
-            console.log(data);
             setPassivesData(data);
         })
     }, [currentHeroID])

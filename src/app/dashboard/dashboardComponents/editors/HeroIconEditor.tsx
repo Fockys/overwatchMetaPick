@@ -21,7 +21,6 @@ export default function HeroIconEditor( {className, currentHeroID}:HeroIconEdito
         
         startTransition(async () => {
             const data = await getHeroIconByID(currentHeroID);
-            console.log(data);
             setHeroData(data);
         })
     }, [currentHeroID])

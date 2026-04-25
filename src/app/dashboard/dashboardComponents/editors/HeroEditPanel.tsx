@@ -23,7 +23,6 @@ export default function HeroEditPanel({currentHeroID,className}:HeroEditPanelPro
         
         startTransition(async () => {
             const data = await getHeroBasicByID(currentHeroID);
-            console.log(data);
             setHeroData(data);
         })
     }, [currentHeroID])
