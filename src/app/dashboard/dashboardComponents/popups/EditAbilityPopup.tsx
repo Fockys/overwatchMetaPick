@@ -9,10 +9,11 @@ interface editAbilityPopupProps{
     className?:string,
     abilityID:number
     abilityName:string,
-    abilityDescription:string
+    abilityDescription:string,
+    onAbilityDelete:any
 }
 
-export default function EditAbilityPopup({className, abilityID, abilityName, abilityDescription}:editAbilityPopupProps){
+export default function EditAbilityPopup({className, abilityID, abilityName, abilityDescription, onAbilityDelete}:editAbilityPopupProps){
 
     const [isOpen, setIsOpen] = useState(false)
     const [abilityData, setAbilityData] = useState({name:abilityName,description:abilityDescription})
@@ -33,6 +34,7 @@ export default function EditAbilityPopup({className, abilityID, abilityName, abi
             await deleteAbility(abilityID);
         })
         setIsOpen(false);
+        onAbilityDelete();
         return
     }
 
@@ -52,7 +54,7 @@ export default function EditAbilityPopup({className, abilityID, abilityName, abi
 
                     <DashboardButton text="submit"/>
                 </form>
-                <DashboardButton text="delete" className="bg-red-500" onclick={abilityDelete}/>
+                <DashboardButton text="delete" className="bg-red-500" onclick={() => abilityDelete()}/>
                 </div>
                 </div>
             )}

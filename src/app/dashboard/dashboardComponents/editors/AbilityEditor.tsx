@@ -1,4 +1,5 @@
-import { useEffect, useState, useTransition } from "react"
+"use client"
+import { useCallback, useEffect, useState, useTransition } from "react"
 import { getAbilitiesByHeroId } from "../../actions/getActions";
 import AbilityCard from "../cards/AbilityCard";
 import AddAbilityPopup from "../popups/AddAbilityPopup";
@@ -13,18 +14,22 @@ export default function AbilityEditor({className, currentHeroID}:AbiltiyEditorPr
     const [abilityData, setAbilityData] = useState<any>(null);
     const [isPending, startTransition] = useTransition();
 
+    const refreshAbilities = useCallback(() => {
+        if (!currentHeroID) return;
+        startTransition(async () => {
+            const abilityData = await getAbilitiesByHeroId(currentHeroID);
+            console.log(abilityData);
+            setAbilityData(abilityData);
+        });
+    }, [currentHeroID, startTransition]);
 
     useEffect(() => {
         if (!currentHeroID){
             setAbilityData(null);
             return;
         }
-        startTransition(async () => {
-            const abilityData =  await getAbilitiesByHeroId(currentHeroID);
-            console.log(abilityData);
-            setAbilityData(abilityData);
-        })
-    }, [currentHeroID])
+        refreshAbilities();
+    }, [currentHeroID, refreshAbilities])
 
 
     return(
@@ -33,7 +38,7 @@ export default function AbilityEditor({className, currentHeroID}:AbiltiyEditorPr
 
         {!isPending && abilityData && (
             <div>
-            <AddAbilityPopup heroID={currentHeroID!} className="px-2"/>
+            <AddAbilityPopup heroID={currentHeroID!} className="px-2" onNewAbility={refreshAbilities}/>
             <div className="flex">
                 {abilityData.map((ability:any) => (
                     <AbilityCard key={ability.id} abilityName={ability.name} abilityDescription={ability.description} abilityIcon={ability.imageName} abilityID={ability.id}/>

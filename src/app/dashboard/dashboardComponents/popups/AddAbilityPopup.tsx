@@ -6,10 +6,11 @@ import { createAbility } from "../../actions/postActions";
 
 interface addAbilityPopupProps{
     className?:string,
-    heroID:number
+    heroID:number,
+    onNewAbility?: () => void
 }
 
-export default function AddAbilityPopup({className, heroID}:addAbilityPopupProps){
+export default function AddAbilityPopup({className, heroID, onNewAbility}:addAbilityPopupProps){
 
     const [isOpen, setIsOpen] = useState(false);
     const [abilityData, setAbilityData] = useState({name:"", description:""});
@@ -25,6 +26,7 @@ export default function AddAbilityPopup({className, heroID}:addAbilityPopupProps
           console.log("adding new ability");
           startTransition( async () => {
             await createAbility(heroID, abilityData.name,abilityData.description)
+            onNewAbility?.();
           });
           setIsOpen(false);
           
