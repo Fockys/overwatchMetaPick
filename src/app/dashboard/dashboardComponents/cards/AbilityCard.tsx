@@ -1,3 +1,4 @@
+import { refresh } from "next/cache";
 import EditAbilityPopup from "../popups/EditAbilityPopup"
 import { useState } from "react"
 
@@ -8,9 +9,10 @@ interface AbiltiyEditorProps{
     abilityName:string,
     abilityDescription:string,
     abilityIcon:string
+    refreshAbilities:any
 }
 
-export default function AbilityCard({className, abilityName, abilityDescription, abilityIcon, abilityID}:AbiltiyEditorProps){
+export default function AbilityCard({className, abilityName, abilityDescription, abilityIcon, abilityID, refreshAbilities}:AbiltiyEditorProps){
 
     const [isHidden, setIsHidden] = useState(false);
     const makeHidden = () => {setIsHidden(true)}
@@ -25,7 +27,7 @@ export default function AbilityCard({className, abilityName, abilityDescription,
             </div>
             <p className="text-xs">{abilityDescription}</p>
             
-            <EditAbilityPopup abilityID={abilityID} abilityName={abilityName} abilityDescription={abilityDescription} onAbilityDelete={makeHidden}/>
+            <EditAbilityPopup abilityID={abilityID} abilityName={abilityName} abilityDescription={abilityDescription} onAbilityDelete={makeHidden} onAbilityEdit={refreshAbilities}/>
         </div>
         )}
         </div>

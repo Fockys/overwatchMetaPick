@@ -10,10 +10,11 @@ interface editAbilityPopupProps{
     abilityID:number
     abilityName:string,
     abilityDescription:string,
-    onAbilityDelete:any
+    onAbilityDelete:any,
+    onAbilityEdit:any
 }
 
-export default function EditAbilityPopup({className, abilityID, abilityName, abilityDescription, onAbilityDelete}:editAbilityPopupProps){
+export default function EditAbilityPopup({className, abilityID, abilityName, abilityDescription, onAbilityDelete, onAbilityEdit}:editAbilityPopupProps){
 
     const [isOpen, setIsOpen] = useState(false)
     const [abilityData, setAbilityData] = useState({name:abilityName,description:abilityDescription})
@@ -26,6 +27,9 @@ export default function EditAbilityPopup({className, abilityID, abilityName, abi
         startTransition( async () => {
             await editAbility(abilityID,abilityData.name,abilityData.description)
         })
+        onAbilityEdit();
+        setIsOpen(false);
+
     }
 
     function abilityDelete(){

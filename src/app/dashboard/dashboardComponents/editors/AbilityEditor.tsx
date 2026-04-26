@@ -40,7 +40,7 @@ export default function AbilityEditor({className, currentHeroID}:AbiltiyEditorPr
             <AddAbilityPopup heroID={currentHeroID!} className="px-2" onNewAbility={refreshAbilities}/>
             <div className="flex">
                 {abilityData.map((ability:any) => (
-                    <AbilityCard key={ability.id} abilityName={ability.name} abilityDescription={ability.description} abilityIcon={ability.imageName} abilityID={ability.id}/>
+                    <AbilityCard key={ability.id} abilityName={ability.name} abilityDescription={ability.description} abilityIcon={ability.imageName} abilityID={ability.id} refreshAbilities={refreshAbilities}/>
                 ))}
             </div>
             </div>
