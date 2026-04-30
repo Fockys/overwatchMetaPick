@@ -1,7 +1,7 @@
 "use client"
 import { useState, startTransition, } from "react"
 import DashboardButton from "../ui/DashboardButton"
-import deleteAbility from "../../actions/deleteActions"
+import { deleteAbility } from "../../actions/deleteActions"
 import { editAbility } from "../../actions/postActions"
 
 
