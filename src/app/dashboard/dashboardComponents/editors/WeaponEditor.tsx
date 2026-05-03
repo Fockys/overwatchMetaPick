@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, useTransition } from "react"
 import {getWeaponsByHeroId} from "../../actions/getActions";
 import DashboardButton from "../ui/DashboardButton";
 import AddWeaponPopup from "../popups/AddWeaponPopup";
+import EditWeaponPopup from "../popups/EditWeaponPopup";
 
 interface WeaponEditorProps{
     className?:string,
@@ -43,7 +44,7 @@ export default function WeaponEditor({className, currentHeroID}:WeaponEditorProp
                         <div key={weapon.id} className="mb-4 border-2 border-gray-300 rounded-sm p-2">
                             <h2 className="xxl:text-xl text-sm">{weapon.name}</h2>
                             <p className="xxl:text-base text-xs">{weapon.description}</p>
-                            <DashboardButton text="edit" className="mt-2 w-full"/>
+                            <EditWeaponPopup weaponID={weapon.id} weaponName={weapon.name} weaponDescription={weapon.description} onWeaponDelete={refreshWeapons} onWeaponEdit={refreshWeapons}/>
                         </div>
                     ))}
                 </div>
