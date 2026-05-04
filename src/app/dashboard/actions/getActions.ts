@@ -18,6 +18,11 @@ export async function getHeroIconByID(id:number){
     return hero[0] ?? null;
 }
 
+export async function getAllHeroes(){
+    const heroes = await db.select({id: heroTable.id, name: heroTable.name, imageName: heroTable.imageName}).from(heroTable);
+    return heroes;
+}
+
 
 export async function getAbilitiesByHeroId(id:number){
     if (!id) return null;

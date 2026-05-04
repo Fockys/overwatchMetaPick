@@ -2,6 +2,7 @@ import { useEffect, useState, useTransition } from "react"
 import { getCountersByHeroId, getCounteredByByHeroId } from "../../actions/getActions";
 import CounterCard from "../cards/CounterCard";
 import DashboardButton from "../ui/DashboardButton";
+import AddCounterPopup from "../popups/AddCounterPopup";
 
 interface CountersEditorProps{
     className?:string,
@@ -27,6 +28,16 @@ export default function CountersEditor({className, currentHeroID}:CountersEditor
         })
     }, [currentHeroID])
 
+    const refreshCounters = () => {
+        if (!currentHeroID) return;
+        startTransition(async () => {
+            const counterData = await getCountersByHeroId(currentHeroID);
+            setCounterData(counterData);
+            const counteredByData = await getCounteredByByHeroId(currentHeroID);
+            setCounteredByData(counteredByData);
+        })
+    };
+
 
 
     return(
@@ -35,7 +46,7 @@ export default function CountersEditor({className, currentHeroID}:CountersEditor
 
         {!isPending && counterData && (
             <div>
-                <DashboardButton text="New Counter" className=" mb-2 ml-2"/>
+                <AddCounterPopup heroID={currentHeroID!} onNewCounter={refreshCounters} className=" mb-2 ml-2"/>
                 <div className="flex flex-row">
                     <div>
                     <h1 className="text-xl pl-2">Counters</h1>
